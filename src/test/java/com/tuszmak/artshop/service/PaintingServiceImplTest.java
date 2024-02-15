@@ -1,14 +1,20 @@
 package com.tuszmak.artshop.service;
 
 import com.tuszmak.artshop.dto.NewPainting;
+import com.tuszmak.artshop.dto.PaintingDTO;
+import com.tuszmak.artshop.model.Artist;
 import com.tuszmak.artshop.model.Painting;
 import com.tuszmak.artshop.repository.ArtistRepository;
 import com.tuszmak.artshop.repository.PaintingRepository;
+import com.tuszmak.artshop.utils.ToDTOUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -32,5 +38,35 @@ class PaintingServiceImplTest {
         Painting expected = new Painting();
         assert expected.equals(actual);
         verify(repository, times(1)).save(any(Painting.class));
+        verify(artistRepository, times(1)).getArtistByName(any(String.class));
+    }
+
+    @Test
+    void should_return_a_painting_dto() {
+        Painting painting = new Painting(
+                UUID.randomUUID(), // Generate a random UUID
+                1L, // Set the publicId
+                "Starry Night",
+                new Artist(),
+                1889,
+                1000000.0,
+                "A beautiful night scene",
+                120.0,
+                90.0
+        );
+        when(repository.getPaintingsByPublicId(any(Long.class)))
+                .thenReturn(Optional.of(painting));
+        PaintingDTO expected = ToDTOUtil.toPaintingDTO(painting);
+        PaintingDTO actual = paintingService.getPaintingById(1L);
+        assert expected.equals(actual);
+    }
+
+    @Test
+    void should_return_none() {
+
+        when(repository.getPaintingsByPublicId(any(Long.class)))
+                .thenReturn(Optional.empty());
+        PaintingDTO actual = paintingService.getPaintingById(1L);
+        assert null == actual;
     }
 }
