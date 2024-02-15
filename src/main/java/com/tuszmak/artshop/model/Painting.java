@@ -23,14 +23,21 @@ public class Painting {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long publicId;
+    @Getter
     private String name;
     @ManyToOne()
     @JoinColumn(name = "artist_id")
+    @Getter
     private Artist artist;
+    @Getter
     private int createdYear;
+    @Getter
     private double price;
+    @Getter
     private String description;
+    @Getter
     private double width;
+    @Getter
     private double height;
 
     @Override
