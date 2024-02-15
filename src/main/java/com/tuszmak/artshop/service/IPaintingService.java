@@ -4,5 +4,5 @@ import com.tuszmak.artshop.dto.NewPainting;
 import com.tuszmak.artshop.model.Painting;
 
 public interface IPaintingService {
-    public Painting createPainting(NewPainting newPainting);
+    Painting createPainting(NewPainting newPainting);
 }

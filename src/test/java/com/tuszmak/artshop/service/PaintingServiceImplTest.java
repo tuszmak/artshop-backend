@@ -1,7 +1,6 @@
 package com.tuszmak.artshop.service;
 
 import com.tuszmak.artshop.dto.NewPainting;
-import com.tuszmak.artshop.model.Artist;
 import com.tuszmak.artshop.model.Painting;
 import com.tuszmak.artshop.repository.ArtistRepository;
 import com.tuszmak.artshop.repository.PaintingRepository;
@@ -27,7 +26,7 @@ class PaintingServiceImplTest {
 
     @Test
     void createPainting() {
-        NewPainting newPainting = new NewPainting("foo","painting",2002,125.5,"Foo",64.0,46.0);
+        NewPainting newPainting = new NewPainting("foo", "painting", 2002, 125.5, "Foo", 64.0, 46.0);
         when(repository.save(any(Painting.class))).thenReturn(new Painting());
         Painting actual = paintingService.createPainting(newPainting);
         Painting expected = new Painting();
