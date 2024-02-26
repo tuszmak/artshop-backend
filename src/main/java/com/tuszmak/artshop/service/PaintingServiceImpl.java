@@ -49,11 +49,11 @@ public class PaintingServiceImpl implements IPaintingService {
         Painting painting = Painting.builder()
                 .name(newPainting.name().isBlank() ? paintingInDB.getName() : newPainting.name())
                 .artist(newPainting.artistName().isBlank() ? paintingInDB.getArtist() : newArtist)
-                .createdYear(newPainting.createdYear() == 0 ? paintingInDB.getCreatedYear() : newPainting.createdYear())
-                .price(newPainting.price() == 0 ? paintingInDB.getPrice() : newPainting.price())
+                .createdYear(newPainting.createdYear() <= 0 ? paintingInDB.getCreatedYear() : newPainting.createdYear())
+                .price(newPainting.price() <= 0 ? paintingInDB.getPrice() : newPainting.price())
                 .description(newPainting.description().isBlank() ? paintingInDB.getDescription() : newPainting.description())
-                .width(newPainting.width() == 0 ? paintingInDB.getWidth() : newPainting.width())
-                .height(newPainting.height() == 0 ? paintingInDB.getHeight() : newPainting.height())
+                .width(newPainting.width() <= 0 ? paintingInDB.getWidth() : newPainting.width())
+                .height(newPainting.height() <= 0 ? paintingInDB.getHeight() : newPainting.height())
                 .id(UUID.randomUUID())
                 .build();
         Painting savedPainting = paintingRepository.save(painting);
