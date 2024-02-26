@@ -45,7 +45,7 @@ public class PaintingServiceImpl implements IPaintingService {
     @Override
     public PaintingDTO modifyPaintingById(long paintingId, NewPainting newPainting) throws NoSuchElementException {
         Painting paintingInDB = paintingRepository.findById(paintingId).orElseThrow(() -> new NoSuchElementException("No painting found"));
-        Artist newArtist = artistRepository.getArtistByName(newPainting.artistName()).orElseThrow(() -> new NoSuchElementException("No artist is name like this."));
+        Artist newArtist = artistRepository.getArtistByName(newPainting.artistName()).orElseThrow(() -> new NoSuchElementException("No artist has name like this."));
         Painting painting = Painting.builder()
                 .name(newPainting.name().isBlank() ? paintingInDB.getName() : newPainting.name())
                 .artist(newPainting.artistName().isBlank() ? paintingInDB.getArtist() : newArtist)
