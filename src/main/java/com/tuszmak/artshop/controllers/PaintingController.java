@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/shop")
+@RequestMapping("/api/v1/paintings")
 public class PaintingController {
 
     private IPaintingService paintingService;

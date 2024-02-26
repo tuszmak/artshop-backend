@@ -21,7 +21,7 @@ public class PaintingServiceImpl implements IPaintingService {
     private final ArtistRepository artistRepository;
 
     public Painting createPainting(NewPainting newPainting) {
-        Artist artist = artistRepository.getArtistByName(newPainting.artistName()).orElse(new Artist());
+        Artist artist = artistRepository.getArtistByName(newPainting.artistName()).orElse(null);
         Painting painting = Painting.builder()
                 .name(newPainting.name())
                 .artist(artist)
