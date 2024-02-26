@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -128,13 +129,13 @@ class PaintingServiceImplTest {
         @Test
         void should_modify_only_the_name() {
             newPainting = new NewPainting(
-                    "Leonardo da Vinci",
                     "Mona Lisa",
-                    1503,
-                    2560.00,
-                    "A renowned portrait of Lisa del Giocondo",
-                    77.0,
-                    53.0
+                    "",
+                    0,
+                    0,
+                    "",
+                    0,
+                    0
             );
             returnedPainting = new Painting(
                     UUID.randomUUID(), // Generate a random UUID
@@ -154,6 +155,42 @@ class PaintingServiceImplTest {
             PaintingDTO expected = ToDTOUtil.toPaintingDTO(returnedPainting);
             Assertions.assertEquals(expected, actual);
             Assertions.assertEquals(actual.name(), "Mona Lisa");
+            Assertions.assertEquals(actual.createdYear(), 1889);
+        }
+
+        @Test
+        void should_return_error_for_id() {
+            newPainting = new NewPainting(
+                    "Foo",
+                    "Mona Lisa",
+                    0,
+                    0,
+                    "",
+                    0,
+                    0
+            );
+            when(paintingRepository.findById(anyLong())).thenReturn(Optional.empty());
+            NoSuchElementException exception = Assertions.assertThrows(
+                    NoSuchElementException.class, () -> paintingService.modifyPaintingById(1L, newPainting));
+            Assertions.assertEquals("No painting found", exception.getMessage());
+        }
+
+        @Test
+        void should_return_error_for_name() {
+            newPainting = new NewPainting(
+                    "Foo",
+                    "Mona Lisa",
+                    0,
+                    0,
+                    "",
+                    0,
+                    0
+            );
+            when(paintingRepository.findById(anyLong())).thenReturn(Optional.ofNullable(painting));
+            when(artistRepository.getArtistByName(anyString())).thenReturn(Optional.empty());
+            NoSuchElementException exception = Assertions.assertThrows(
+                    NoSuchElementException.class, () -> paintingService.modifyPaintingById(1L, newPainting));
+            Assertions.assertEquals("No artist has name like this.", exception.getMessage());
         }
     }
 }

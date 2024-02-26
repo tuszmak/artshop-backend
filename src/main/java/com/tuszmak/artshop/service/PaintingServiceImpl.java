@@ -58,7 +58,6 @@ public class PaintingServiceImpl implements IPaintingService {
                 .build();
         Painting savedPainting = paintingRepository.save(painting);
         return ToDTOUtil.toPaintingDTO(savedPainting);
-
     }
 
 
